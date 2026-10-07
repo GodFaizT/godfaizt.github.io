@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tomás Alexandre · Open source</title>
+  <meta name="description" content="Open source projects by Tomás Alexandre, full-stack developer. FitPlan: a self-hosted fitness PWA for nutrition, meals and training." />
+  <meta property="og:title" content="Tomás Alexandre · Open source" />
+  <meta property="og:description" content="FitPlan: a self-hosted fitness PWA for nutrition, meals and training. MIT licensed." />
+  <meta property="og:url" content="https://godfaizt.github.io/" />
+  <meta name="theme-color" content="#F6F8F6" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#12201A" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2312201A'/%3E%3Crect x='6' y='19' width='20' height='6' fill='%236EE7B7'/%3E%3Ctext x='16' y='22' font-family='Arial Black,Arial' font-weight='900' font-size='15' text-anchor='middle' fill='%23F6F8F6'%3ETA%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,400..900&family=Schibsted+Grotesk:wght@400..700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --chalk: #F6F8F6;
+      --ink: #12201A;
+      --graphite: #56635C;
+      --mint: #6EE7B7;
+      --link: #0B7350;
+      --rule: #D5DED9;
+      --code-bg: #E9EFEB;
+      --bg: var(--chalk);
+      --text: var(--ink);
+      --muted: var(--graphite);
+      --marker: var(--mint);
+      --display: "Anybody", "Arial Black", system-ui, sans-serif;
+      --body: "Schibsted Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --mono: ui-monospace, "Cascadia Code", "SF Mono", Consolas, monospace;
+      --gutter: 16px;
+      color-scheme: light;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #12201A;
+        --text: #EAF2ED;
+        --muted: #9DB0A6;
+        --link: #6EE7B7;
+        --rule: #2A3B33;
+        --code-bg: #1B2C24;
+        --marker: #2F7D5E;
+        color-scheme: dark;
+      }
+    }
+    @media (min-width: 720px) { :root { --gutter: 40px; } }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--body);
+      font-size: 1.0625rem;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    /* Bilingual: every translatable element exists twice, shown by <html lang> */
+    html[lang="en"] body [lang="pt"],
+    html[lang="pt"] body [lang="en"] { display: none !important; }
+
+    a { color: var(--link); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+    a:hover { text-decoration-thickness: 2px; }
+    :focus-visible { outline: 3px solid var(--link); outline-offset: 3px; border-radius: 2px; }
+
+    .wrap { max-width: 1120px; margin-inline: auto; padding-inline: var(--gutter); }
+
+    /* Header */
+    .top {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      padding-top: 20px; padding-bottom: 20px;
+    }
+    .wordmark {
+      font-family: var(--display); font-weight: 800; font-variation-settings: "wdth" 120;
+      font-size: 1.05rem; color: var(--text); text-decoration: none; letter-spacing: -0.01em;
+    }
+    .top nav { display: flex; align-items: center; gap: 18px; font-size: 0.95rem; }
+    .top nav a { color: var(--text); text-decoration: none; }
+    .top nav a:hover { text-decoration: underline; }
+    .lang { display: inline-flex; border: 1.5px solid var(--text); border-radius: 999px; overflow: hidden; }
+    .lang button {
+      font: 600 0.8rem/1 var(--body); color: var(--text); background: transparent;
+      border: 0; padding: 7px 11px; cursor: pointer;
+    }
+    .lang button[aria-pressed="true"] { background: var(--text); color: var(--bg); }
+    @media (max-width: 540px) { .top nav .hide-sm { display: none; } }
+
+    /* Intro */
+    .intro { padding-top: 48px; padding-bottom: 8px; }
+    .intro h1 {
+      font-family: var(--display); font-weight: 700; font-variation-settings: "wdth" 100;
+      font-size: clamp(1.75rem, 4.2vw, 2.75rem); line-height: 1.12; letter-spacing: -0.02em;
+      margin: 0 0 16px; max-width: 46rem;
+    }
+    .intro p { color: var(--muted); margin: 0; max-width: 38rem; }
+
+    /* Project hero: the one loud thing on the page */
+    .project { padding-top: 56px; }
+    .project-name {
+      font-family: var(--display); font-weight: 900; font-variation-settings: "wdth" 150;
+      font-size: clamp(3rem, 14vw, 11.25rem); line-height: 0.86; letter-spacing: -0.035em;
+      margin: 0; position: relative; display: inline-block; isolation: isolate;
+    }
+    .project-name::after {
+      content: ""; position: absolute; z-index: -1;
+      left: -0.04em; right: -0.06em; bottom: 0.1em; height: 0.3em;
+      background: var(--marker); transform-origin: left center;
+      animation: mark 700ms cubic-bezier(.2,.8,.2,1) 250ms both;
+    }
+    @keyframes mark { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+    @media (max-width: 480px) { .project-name { font-variation-settings: "wdth" 125; font-size: 18vw; } }
+
+    .pitch { font-size: clamp(1.125rem, 2vw, 1.375rem); line-height: 1.45; max-width: 40rem; margin: 28px 0 28px; }
+
+    .clone {
+      display: flex; align-items: stretch; max-width: 40rem;
+      border: 1.5px solid var(--text); border-radius: 10px; overflow: hidden; background: var(--code-bg);
+    }
+    .clone code {
+      flex: 1; min-width: 0; padding: 14px 16px; font: 0.95rem/1.4 var(--mono);
+      white-space: nowrap; overflow-x: auto;
+    }
+    .clone code::before { content: "$ "; color: var(--muted); }
+    .clone button {
+      flex: none; border: 0; border-left: 1.5px solid var(--text); background: var(--text); color: var(--bg);
+      font: 600 0.9rem/1 var(--body); padding: 0 18px; cursor: pointer; min-width: 92px;
+    }
+    .clone button:hover { opacity: 0.9; }
+
+    .actions { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; margin-top: 20px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px; text-decoration: none;
+      font-weight: 600; padding: 12px 18px; border-radius: 10px;
+      background: var(--marker); color: var(--ink); border: 1.5px solid var(--ink);
+    }
+    @media (prefers-color-scheme: dark) { .btn { background: var(--mint); border-color: var(--mint); } }
+    .btn:hover { text-decoration: underline; }
+    .btn svg { width: 18px; height: 18px; }
+
+    .facts {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px 32px;
+      margin: 40px 0 0; padding: 18px 0 0; border-top: 1.5px solid var(--text); max-width: 46rem;
+    }
+    .facts div { margin: 0; }
+    .facts dt { color: var(--muted); font-size: 0.875rem; }
+    .facts dd { margin: 2px 0 0; font-weight: 600; }
+
+    /* Features */
+    section h3 {
+      font-family: var(--display); font-weight: 800; font-variation-settings: "wdth" 115;
+      font-size: clamp(1.5rem, 3vw, 2rem); letter-spacing: -0.015em; line-height: 1.15; margin: 0 0 8px;
+    }
+    .block { padding-top: 88px; }
+    .block > p.lede { color: var(--muted); margin: 0 0 32px; max-width: 40rem; }
+    .features { display: grid; grid-template-columns: 1fr; gap: 40px; }
+    @media (min-width: 820px) { .features { grid-template-columns: repeat(3, 1fr); gap: 48px; } }
+    .features h4 {
+      font-family: var(--display); font-weight: 700; font-variation-settings: "wdth" 110;
+      font-size: 1.2rem; margin: 0 0 12px; padding-top: 14px; border-top: 5px solid var(--text);
+    }
+    .features ul { margin: 0; padding: 0; list-style: none; }
+    .features li { padding: 8px 0; border-bottom: 1px solid var(--rule); }
+    .features li:last-child { border-bottom: 0; }
+    .note { margin-top: 32px; color: var(--muted); font-size: 0.95rem; max-width: 40rem; }
+
+    /* Steps: a real sequence, so it's numbered */
+    .steps { list-style: none; counter-reset: step; margin: 0; padding: 0; display: grid; gap: 36px; max-width: 46rem; }
+    .steps > li { counter-increment: step; display: grid; grid-template-columns: 3.25rem 1fr; gap: 0 16px; }
+    .steps > li::before {
+      content: counter(step); grid-row: span 3;
+      font-family: var(--display); font-weight: 900; font-variation-settings: "wdth" 150;
+      font-size: 2.4rem; line-height: 1; color: var(--text);
+    }
+    .steps h4 { margin: 4px 0 6px; font-size: 1.1rem; }
+    .steps p { margin: 0 0 10px; color: var(--muted); }
+    pre {
+      margin: 0; background: var(--code-bg); border-radius: 10px; padding: 14px 16px;
+      font: 0.9rem/1.55 var(--mono); overflow-x: auto; min-width: 0;
+    }
+    p code, li code { font: 0.9em var(--mono); background: var(--code-bg); padding: 1px 6px; border-radius: 5px; }
+
+    /* Next */
+    .next p { margin: 0 0 12px; max-width: 40rem; }
+
+    footer { margin-top: 112px; padding: 36px 0 48px; border-top: 1.5px solid var(--text); }
+    footer .cols { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px 48px; }
+    footer p { margin: 0; max-width: 34rem; }
+    footer .small { color: var(--muted); font-size: 0.9rem; margin-top: 6px; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .project-name::after { animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="wrap top">
+    <a class="wordmark" href="./">Tomás Alexandre</a>
+    <nav aria-label="Main">
+      <a class="hide-sm" href="https://github.com/GodFaizT">GitHub</a>
+      <a href="https://www.tomasdev.me"><span lang="en">Portfolio</span><span lang="pt">Portefólio</span></a>
+      <div class="lang" role="group" aria-label="Language / Língua">
+        <button type="button" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="pt" aria-pressed="false">PT</button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <div class="wrap intro">
+      <h1 lang="en">Software I build in the open.</h1>
+      <h1 lang="pt">Software que construo à vista de todos.</h1>
+      <p lang="en">I'm Tomás, a full-stack developer. The projects here are free to read, run on your own server and change however you like.</p>
+      <p lang="pt">Sou o Tomás, programador full-stack. Os projetos aqui são livres: podes ler o código, corrê-los no teu servidor e alterá-los como quiseres.</p>
+    </div>
+
+    <article class="wrap project" aria-labelledby="fitplan">
+      <h2 class="project-name" id="fitplan">FitPlan</h2>
+      <p class="pitch" lang="en">A self-hosted fitness app. Work out your calorie targets, log meals, follow guided workouts and track your progress, all in one PWA you install on your phone. Your data stays on your server.</p>
+      <p class="pitch" lang="pt">Uma app de fitness que alojas tu. Calcula as tuas metas de calorias, regista refeições, segue treinos guiados e acompanha a tua evolução, tudo numa PWA que instalas no telemóvel. Os dados ficam no teu servidor.</p>
+
+      <div class="clone">
+        <code id="clone-cmd">git clone https://github.com/GodFaizT/fitplan.git</code>
+        <button type="button" id="copy" aria-describedby="clone-cmd">
+          <span lang="en">Copy</span><span lang="pt">Copiar</span>
+        </button>
+      </div>
+
+      <div class="actions">
+        <a class="btn" href="https://github.com/GodFaizT/fitplan">
+          <svg viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          <span lang="en">View the code on GitHub</span><span lang="pt">Ver o código no GitHub</span>
+        </a>
+        <a href="#run"><span lang="en">How to run it</span><span lang="pt">Como pôr a correr</span></a>
+      </div>
+
+      <dl class="facts">
+        <div><dt><span lang="en">License</span><span lang="pt">Licença</span></dt><dd>MIT</dd></div>
+        <div><dt>Frontend</dt><dd>Next.js</dd></div>
+        <div><dt>Backend</dt><dd>NestJS, PostgreSQL</dd></div>
+        <div><dt><span lang="en">Runs on</span><span lang="pt">Corre em</span></dt><dd>Docker</dd></div>
+      </dl>
+
+      <section class="block" aria-labelledby="what">
+        <h3 id="what"><span lang="en">What it does</span><span lang="pt">O que faz</span></h3>
+        <p class="lede" lang="en">Three parts that feed each other: what you eat, how you train, and what changes over time.</p>
+        <p class="lede" lang="pt">Três partes que se ligam: o que comes, como treinas e o que muda ao longo do tempo.</p>
+        <div class="features">
+          <div>
+            <h4><span lang="en">Nutrition</span><span lang="pt">Nutrição</span></h4>
+            <ul lang="en">
+              <li>Calorie and macro targets from your body and goal</li>
+              <li>Meal log with common foods, saved foods and "copy yesterday"</li>
+              <li>Barcode scanner using Open Food Facts</li>
+              <li>Optional AI photo analysis: snap a plate, get foods and macros</li>
+              <li>Daily water counter</li>
+            </ul>
+            <ul lang="pt">
+              <li>Metas de calorias e macros a partir do teu corpo e objetivo</li>
+              <li>Registo de refeições com alimentos comuns, guardados e "copiar ontem"</li>
+              <li>Scanner de código de barras com o Open Food Facts</li>
+              <li>Análise por foto com IA (opcional): fotografas o prato, recebes alimentos e macros</li>
+              <li>Contador de água diário</li>
+            </ul>
+          </div>
+          <div>
+            <h4><span lang="en">Training</span><span lang="pt">Treino</span></h4>
+            <ul lang="en">
+              <li>870+ exercises with images and instructions</li>
+              <li>Ready-made 3-day and 5-day plans</li>
+              <li>Weekly schedule for your workouts</li>
+              <li>Guided sessions with a rest timer</li>
+              <li>Suggestions for when to add weight</li>
+            </ul>
+            <ul lang="pt">
+              <li>Mais de 870 exercícios com imagens e instruções</li>
+              <li>Planos prontos de 3 e 5 dias</li>
+              <li>Agenda semanal dos treinos</li>
+              <li>Sessões guiadas com cronómetro de descanso</li>
+              <li>Sugestões de quando subir o peso</li>
+            </ul>
+          </div>
+          <div>
+            <h4><span lang="en">Progress</span><span lang="pt">Progresso</span></h4>
+            <ul lang="en">
+              <li>Weight against your goal, plus body measurements</li>
+              <li>Before and after progress photos</li>
+              <li>Weekly summary with streaks and a consistency heatmap</li>
+              <li>Volume per muscle group and cardio log</li>
+              <li>Export everything you've logged</li>
+            </ul>
+            <ul lang="pt">
+              <li>Peso face à tua meta e medidas corporais</li>
+              <li>Fotos de progresso antes e depois</li>
+              <li>Resumo semanal com sequências e heatmap de consistência</li>
+              <li>Volume por grupo muscular e registo de cardio</li>
+              <li>Exporta tudo o que registaste</li>
+            </ul>
+          </div>
+        </div>
+        <p class="note" lang="en">Multi-user, with push notifications and account approval by the admin. The interface is in Portuguese for now. Translations are welcome.</p>
+        <p class="note" lang="pt">Multi-utilizador, com notificações push e aprovação de contas pelo admin. Para já, a interface está em português.</p>
+      </section>
+
+      <section class="block" id="run" aria-labelledby="run-title">
+        <h3 id="run-title"><span lang="en">Run it on your server</span><span lang="pt">Corre-a no teu servidor</span></h3>
+        <p class="lede" lang="en">You need Docker. Everything else, including the exercise library, is set up on first start.</p>
+        <p class="lede" lang="pt">Precisas do Docker. O resto, incluindo a biblioteca de exercícios, fica pronto no primeiro arranque.</p>
+        <ol class="steps">
+          <li>
+            <h4><span lang="en">Get the code</span><span lang="pt">Obtém o código</span></h4>
+            <pre><code>git clone https://github.com/GodFaizT/fitplan.git
+cd fitplan</code></pre>
+          </li>
+          <li>
+            <h4><span lang="en">Add your settings</span><span lang="pt">Configura</span></h4>
+            <p lang="en">Copy the example file, then set a database password, two JWT secrets and the email of the admin account.</p>
+            <p lang="pt">Copia o ficheiro de exemplo e define a password da base de dados, dois segredos JWT e o email da conta de admin.</p>
+            <pre><code>cp .env.example .env
+openssl rand -hex 32</code></pre>
+          </li>
+          <li>
+            <h4><span lang="en">Start it</span><span lang="pt">Arranca</span></h4>
+            <p lang="en">Then open <code>localhost:3000</code> and register with your admin email.</p>
+            <p lang="pt">Depois abre <code>localhost:3000</code> e regista-te com o email de admin.</p>
+            <pre><code>docker compose up --build</code></pre>
+          </li>
+        </ol>
+      </section>
+    </article>
+
+    <section class="wrap block next" aria-labelledby="next-title">
+      <h3 id="next-title"><span lang="en">More on the way</span><span lang="pt">Vem aí mais</span></h3>
+      <p lang="en">FitPlan is the first project I've opened up. I'll publish more of the tools I build as they're ready. Follow along on <a href="https://github.com/GodFaizT">GitHub</a>.</p>
+      <p lang="pt">O FitPlan é o primeiro projeto que abri. Vou publicar mais ferramentas à medida que estiverem prontas. Acompanha no <a href="https://github.com/GodFaizT">GitHub</a>.</p>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <div class="cols">
+      <div>
+        <p lang="en">Need a web app built? See my client work at <a href="https://www.tomasdev.me">tomasdev.me</a>.</p>
+        <p lang="pt">Precisas de uma aplicação web? Vê o meu trabalho em <a href="https://www.tomasdev.me">tomasdev.me</a>.</p>
+        <p class="small"><a href="mailto:suporte@tomasdev.me">suporte@tomasdev.me</a></p>
+      </div>
+      <p class="small">© 2026 Tomás Alexandre</p>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var buttons = document.querySelectorAll('.lang button');
+
+      function setLang(lang, remember) {
+        root.lang = lang;
+        buttons.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.lang === lang)); });
+        if (remember) { try { localStorage.setItem('lang', lang); } catch (e) {} }
+      }
+
+      var saved = null;
+      try { saved = localStorage.getItem('lang'); } catch (e) {}
+      var browserPt = (navigator.language || '').toLowerCase().indexOf('pt') === 0;
+      setLang(saved === 'en' || saved === 'pt' ? saved : (browserPt ? 'pt' : 'en'), false);
+
+      buttons.forEach(function (b) {
+        b.addEventListener('click', function () { setLang(b.dataset.lang, true); });
+      });
+
+      var copy = document.getElementById('copy');
+      copy.addEventListener('click', function () {
+        var text = document.getElementById('clone-cmd').textContent;
+        var done = function () {
+          var original = copy.innerHTML;
+          copy.innerHTML = '<span lang="en">Copied</span><span lang="pt">Copiado</span>';
+          setTimeout(function () { copy.innerHTML = original; }, 1600);
+        };
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(text).then(done, function () {});
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
